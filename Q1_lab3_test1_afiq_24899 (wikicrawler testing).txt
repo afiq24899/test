@@ -1,0 +1,570 @@
+Start interactive shell
+
+Alienguy@AW17R3 MINGW64 /c/Program Files/Docker Toolbox
+$ cd ~                                                                                                                                  
+
+
+Alienguy@AW17R3 MINGW64 ~
+$ cd test                                                                                                                               
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$ ls
+Dockerfile  instagram.py  packetsniffer.py  README.md  wikicrawler.py*
+
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$ cat Dockerfile
+FROM python:3
+
+LABEL maintainer="Sawood Alam <@ibnesayeed>"
+
+
+RUN pip install beautifulsoup4
+RUN pip install requests
+RUN pip install wikipedia
+
+
+WORKDIR /app
+COPY   wikicrawler.py /app/
+RUN chmod a+x wikicrawler.py
+
+ENTRYPOINT ["./wikicrawler.py"]
+
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$ cat wikicrawler.py      
+
+#!/usr/bin/env python
+import wikipedia
+import sys
+
+
+page = wikipedia.page(sys.argv[-1])
+links = []
+
+for link in page.links:
+        links.append({"page":link})
+
+for link in links:
+        print(link["page"])
+
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$ docker image build -t wikicrawler:test1.0 .
+Sending build context to Docker daemon  132.1kB
+Step 1/9 : FROM python:3
+ ---> f88b2f81f83a
+Step 2/9 : LABEL maintainer="Sawood Alam <@ibnesayeed>"
+ ---> Using cache
+ ---> 0218e7fea121
+Step 3/9 : RUN pip install beautifulsoup4
+ ---> Using cache
+ ---> 0551a6c6efe1
+Step 4/9 : RUN pip install requests
+ ---> Using cache
+ ---> 4683677f2255
+Step 5/9 : RUN pip install wikipedia
+ ---> Using cache
+ ---> 51f6f9fa0931
+Step 6/9 : WORKDIR /app
+ ---> Using cache
+ ---> 41ef66d2d303
+Step 7/9 : COPY   wikicrawler.py /app/
+ ---> Using cache
+ ---> 433ee532eb14
+Step 8/9 : RUN chmod a+x wikicrawler.py
+ ---> Using cache
+ ---> 95244964d8fa
+Step 9/9 : ENTRYPOINT ["./wikicrawler.py"]
+ ---> Using cache
+ ---> 7d3996cc6b40
+Successfully built 7d3996cc6b40
+Successfully tagged wikicrawler:test1.0
+SECURITY WARNING: You are building a Docker image from Windows against a non-Windows Docker host. All files and directories added to build context will have '-rwxr-xr-x' permissions. It is recommended to double check and reset permissions for sensitive files and directories.
+
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$ docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+wikicrawler         test1.0             7d3996cc6b40        6 minutes ago       944MB
+wikicrawler-api     step5-python        3ade51c000c5        7 days ago          949MB
+linkextractor-api   step5-python        c4688a037dd2        7 days ago          949MB
+linkextractor-web   step5-php           95a4fbf83cc4        7 days ago          414MB
+wikicrawler-web     step5-python        95a4fbf83cc4        7 days ago          414MB
+wikicrawler         afiq1               af3e80d31a80        8 days ago          944MB
+wikicrawler         testing             2c23ee8e9397        8 days ago          944MB
+wikicrawler         1.1                 240dfa49dea4        8 days ago          944MB
+wikicrawler         test1               240dfa49dea4        8 days ago          944MB
+wikicrawler         1.0                 3de471b5e422        8 days ago          944MB
+redis               latest              7eed8df88d3b        8 days ago          98.2MB
+python              3                   f88b2f81f83a        8 days ago          933MB
+php                 7-apache            d753d5b380a1        8 days ago          414MB
+ubuntu              latest              72300a873c2c        13 days ago         64.2MB
+alpine              latest              e7d92cdc71fe        6 weeks ago         5.59MB
+hello-world         latest              fce289e99eb9        14 months ago       1.84kB
+
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$ docker container run -it --rm wikicrawler:test1.0 fish
+16 mm film
+180-degree rule
+24-hour news cycle
+35mm movie film
+Academy Awards
+Acetate
+Action film
+Actor
+Actors
+Advanced capitalism
+Advertising
+African cinema
+Amateur
+American Dream
+Amos Vogel
+Analog (signal)
+Analytical philosophy
+Andrei Tarkovsky
+Andrzej Wajda
+André Bazin
+Animated GIF
+Animation
+Animation camera
+Anonymity
+Art
+Art film
+Artistic
+Asian cinema
+Aspect ratio (image)
+Audience
+Audience response
+Audiences
+Auguste and Louis Lumière
+Babelsberg Studio
+Ballet
+Batman (1989 film)
+Battleship Potemkin
+Becky Sharp (film)
+Berlin
+Berlin Wintergarten theatre
+Bibliography of film by genre
+Bipartisanship
+Blacksmith Scene
+Blockbuster (entertainment)
+Blockbuster film
+Blu-ray Disc
+Bolex
+Bollywood
+Box office
+Boycott
+Breaking down the script
+Bride of Frankenstein
+British and American English
+Broadcast media
+Broadcast syndication
+Buster Keaton
+Butch and Sundance: The Early Days
+Béla Balázs
+Call-out culture
+Camcorder
+Camera
+Cancel culture
+Catch and kill
+Caterer
+Celebrity
+Celluloid
+Charles Chaplin
+Charlie Chaplin
+Christiaan Huygens
+Cinema of India
+Cinema of the United States
+Cinematic technique
+Cinematic techniques
+Cinematographer
+Cinematography
+Cinephilia
+Civil disobedience
+Classical Hollywood cinema
+Claymation
+Color motion picture film
+Comedy film
+Comic book
+Commerce
+Computer-generated imagery
+Computer animation
+Concentration of media ownership
+Consumerism
+Corporate media
+Cost overruns
+Costumes
+Counterculture
+Counterpoint
+Cross-genre
+Crowd manipulation
+Cult of personality
+Cultural artifact
+Culture
+Culture industry
+Culture jamming
+Curlie
+D. W. Griffith
+DV
+DVD
+DVD-Video
+Daily call sheet
+Daily editor log
+Daily production report
+Daily progress report
+Dances
+David Thomson (film critic)
+Day Out of Days
+Delayed release (film)
+Demonstration (protest)
+Dialogue
+Digital cinema
+Digital cinematography
+Digital object identifier
+Digital projector
+Digital recording
+Digital video
+Docufiction
+Documentary film
+Double feature
+Download
+Drama film
+Dubbing (filmmaking)
+Dumbing down
+Eadweard Muybridge
+East Asian cinema
+Edison Manufacturing Company
+Edison Studios
+Editing
+Educational film
+Edward Bernays
+Eidoloscope
+Entertainment
+Europe
+European cinema
+Exposure (photography)
+Fake news
+Fan (aficionado)
+Fan fiction
+Fan film
+Feature film
+Feminist film theory
+Ferdinand de Saussure
+Ferris Bueller's Day Off
+Film (disambiguation)
+Film as a Subversive Art
+Film base
+Film budgeting
+Film crew
+Film criticism
+Film director
+Film distribution
+Film distributor
+Film editing
+Film editor
+Film festival
+Film finance
+Film format
+Film frame
+Film genre
+Film history
+Film industry
+Film inventory report
+Film preservation
+Film production
+Film propaganda
+Film release
+Film school
+Film score
+Film screening
+Film stock
+Film studies
+Film theory
+Film trailer
+Film treatment
+Filmmaking
+Filmography
+Filmophile
+Fine art
+FireWire
+First Blood
+Form of life (philosophy)
+Formalist film theory
+Framing (social sciences)
+Francesco Casetti
+Fred Patten
+Freedom of speech
+French New Wave
+Friedrich Wilhelm Murnau
+Fritz Lang
+George Hickenlooper
+Georges Méliès
+Glossary of motion picture terms
+Graffiti
+Green-light
+Guerrilla filmmaking
+Guy Debord
+Hanna-Barbera
+Hearing (sense)
+Hindi
+History of film
+History of film technology
+Hollywood
+Hollywood, California
+Home video
+Hook (filmmaking)
+Horror film
+IMDb
+Independent animation
+Independent film
+Index of video-related articles
+Influence of mass media
+Ingmar Bergman
+International Standard Book Number
+International Standard Serial Number
+Internet
+Intolerance (film)
+Jacques Lacan
+Jacques Rancière
+James Bond
+James Monaco
+Japan
+Japanese New Wave
+Jean Baudrillard
+John Rambo
+Joseph Plateau
+Kevin Costner
+Kinetoscope
+Language
+Latin American cinema
+Le Voyage dans la Lune
+Len Lye
+Leni Riefenstahl
+Lens (optics)
+License
+Limited animation
+Limited release
+List of Hollywood movie studios
+List of books on films
+List of film awards
+List of film festivals
+List of film periodicals
+List of years in film
+Lists of films
+Lost film
+Louis Le Prince
+Magazine
+Magic lantern
+Mainstream
+Mainstream media
+Managing the news
+Marshall McLuhan
+Martin Scorsese
+Mass media
+Mass society
+Max Skladanowsky
+Media bias
+Media circus
+Media culture
+Media event
+Media manipulation
+Media studies
+Metonym
+Mise en scene
+Mise en scène
+Montage (filmmaking)
+Mothlight
+Movie
+Movie (disambiguation)
+Movie camera
+Movie marketing
+Movie projector
+Movie review
+Movie studio
+Movie theater
+Movie theatre
+Moving picture (disambiguation)
+Multimedia
+Mumbai
+Mutoscope
+Narcotizing dysfunction
+Narrative film
+Negative cost
+New Hollywood
+News broadcasting
+News media
+Newspaper
+Noam Chomsky
+Non-linear editing system
+Norman McLaren
+North American cinema
+Oberammergau Passion Play
+Occupation (protest)
+Oceanian cinema
+One liner schedule
+Open content film
+Opera
+Orchestra
+Organ (music)
+Osamu Tezuka
+Outline of film
+Oxford University Press
+Pam Cook
+Parallel Cinema
+Paul Schrader
+Pensée unique
+Persistence of vision
+Personal computer
+Peter Bogdanovich
+Phenakistoscope
+Phi phenomenon
+Photographic emulsion
+Photographic film
+Photographic plate
+Photography
+Piano
+Pitch (filmmaking)
+Play (theatre)
+Polarized 3D system
+Political satire
+Polyester
+Pop music
+Post-Fordism
+Post-credits scene
+Post-production
+Praxinoscope
+Pre-production
+Prequel
+Preview (theatre)
+Principal photography
+Privacy
+Product placement
+Production board
+Production cycle
+Production report
+Production schedule
+Production strip
+Projection screen
+Propaganda
+Propaganda film
+Protest
+Psychoanalytic film theory
+Public relations
+Punk subculture
+Re-recording (filmmaking)
+Recording medium
+Recuperation (politics)
+Reel
+Ricciotto Canudo
+Roadshow theatrical release
+Roundhay Garden Scene
+Rudolf Arnheim
+Sales
+Scene (filming)
+Science fiction film
+Screenplay
+Screenwriter
+Screenwriting
+Script (performing arts)
+Script breakdown
+Script development
+Scriptment
+Semiotic democracy
+Semiotics
+Sensationalism
+Separation masters
+Sequel
+Sergei Eisenstein
+Set construction
+Shooting schedule
+Shooting script
+Short film
+Short subject
+Shot (filming)
+Siegfried Kracauer
+Silent film
+Silent films
+Silver screen
+Sound
+Sound-on-film
+Sound effect
+Sound effects
+Sound film
+Sound recording and reproduction
+Sound report
+Soundtrack
+South Asian cinema
+Southeast Asian cinema
+Spec script
+Special effect
+Spectacle (critical theory)
+Spin (propaganda)
+Stan Brakhage
+Star Wars action figures
+Step outline
+Stereophonic sound
+Stop motion
+Storyboard
+Storyboards
+Streaming media
+Strike action
+Structuralist film theory
+Studio system
+Subtitles
+Sync sound
+Tabloid journalism
+Take the Money and Run
+Talkies
+Technicolor
+Technology
+Television
+Television film
+Television production
+Television program
+Television programming
+Test screening
+The Birth of a Nation
+The Bond
+The Kiss (1896 film)
+The Lonely Crowd
+The Movies
+The New Biographical Dictionary of Film
+Theatre
+Theatre Optique
+Theodor W. Adorno
+Theoretical
+Translation
+Tribeca Film Festival
+United Productions of America
+United States
+VHS
+Variety (magazine)
+Variety show
+Veoh
+Video
+Video editing software
+Video on demand
+Videography
+Videotape
+Videotape recorder
+Vietnam veteran
+Visual art
+Visual arts
+Visual effects
+Walter Lippmann
+Warner Bros.
+Waterworld
+Wayback Machine
+Web film
+West Asian cinema
+Wide release
+Widescreen
+Wikinews
+Wittgenstein
+Woodville Latham
+Woody Allen
+World War I
+World cinema
+Yahoo! Movies
+YouTube
+Zoetrope
+Zoopraxiscope
+
+Alienguy@AW17R3 MINGW64 ~/test (master)
+$
